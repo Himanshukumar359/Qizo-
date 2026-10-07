@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QIZO — Chandigarh | Enter The Experience</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Syne & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Tailwind Config for Custom Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        qizo: {
+                            bg: '#0B0B0D',
+                            surface: '#15151A',
+                            surfaceLight: '#1E1E26',
+                            coral: '#F26A4B',
+                            amber: '#C9A46C',
+                            lavender: '#B9A7FF',
+                            cream: '#F4EBDD',
+                            muted: '#9CA3AF'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Syne', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0B0B0D;
+            color: #F4EBDD;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        @media (min-width: 1024px) {
+            body { cursor: none; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0B0D;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2D2D38;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #F26A4B;
+        }
+
+        /* Custom Cursor */
+        #custom-cursor {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: 200%;
+            animation: marquee 25s linear infinite;
+        }
+
+        /* Ambient Glows */
+        .ambient-glow-1 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(242, 106, 75, 0.15) 0%, rgba(11, 11, 13, 0) 70%);
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .ambient-glow-2 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(185, 167, 255, 0.1) 0%, rgba(11, 11, 13, 0) 70%);
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Glassmorphism Navigation */
+        .glass-nav {
+            background: rgba(21, 21, 26, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(21, 21, 26, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* Image hover zoom effect */
+        .img-zoom-container {
+            overflow: hidden;
+        }
+        .img-zoom-container img {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .img-zoom-container:hover img {
+            transform: scale(1.08);
+        }
+    </style>
+</head>
+<body class="bg-qizo-bg text-qizo-cream antialiased selection:bg-qizo-coral selection:text-white">
+
+    <!-- Custom Cursor -->
+    <div id="custom-cursor" class="hidden lg:flex items-center justify-center w-8 h-8 rounded-full border border-qizo-coral/60 bg-qizo-coral/10 text-[9px] font-bold tracking-widest text-qizo-cream uppercase text-center">
+        <div class="w-2 h-2 bg-qizo-coral rounded-full transition-all duration-300" id="cursor-dot"></div>
+        <span id="cursor-text" class="absolute hidden text-white whitespace-nowrap px-2 py-0.5 rounded bg-qizo-surface/90 border border-qizo-coral/30"></span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-7xl rounded-full px-6 py-4 glass-nav transition-all duration-500" id="navbar">
+        <div class="flex items-center justify-between">
+            <a href="#" class="font-display font-extrabold text-2xl md:text-3xl tracking-tighter text-qizo-cream hover:text-qizo-coral transition-colors">
+                QIZO<span class="text-qizo-coral">.</span>
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wider uppercase text-qizo-cream/80">
+                <a href="#experience" class="hover:text-qizo-coral transition-colors" data-cursor="EXPLORE">Experience</a>
+                <a href="#vibe" class="hover:text-qizo-coral transition-colors" data-cursor="EXPLORE">Mood</a>
+                <a href="#menu" class="hover:text-qizo-coral transition-colors" data-cursor="VIEW MENU">The Table</a>
+                <a href="#bar" class="hover:text-qizo-coral transition-colors" data-cursor="POUR">Bar & Spirits</a>
+                <a href="#gallery" class="hover:text-qizo-coral transition-colors" data-cursor="EXPLORE">Gallery</a>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <a href="#reserve" class="relative group overflow-hidden rounded-full bg-qizo-coral px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:shadow-[0_0_25px_rgba(242,106,75,0.4)]" data-cursor="RESERVE">
+                    <span class="relative z-10">Reserve Table</span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-amber-600 to-qizo-coral opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </a>
+                
+                <!-- Mobile Menu Toggle -->
+                <button id="mobile-menu-btn" class="md:hidden text-qizo-cream p-1 focus:outline-none" aria-label="Toggle Menu">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-qizo-bg/95 backdrop-blur-2xl flex flex-col items-center justify-center space-y-8 text-2xl font-display font-bold uppercase tracking-wider opacity-0 pointer-events-none transition-opacity duration-500">
+        <a href="#experience" class="mobile-link hover:text-qizo-coral transition-colors">Experience</a>
+        <a href="#vibe" class="mobile-link hover:text-qizo-coral transition-colors">Mood</a>
+        <a href="#menu" class="mobile-link hover:text-qizo-coral transition-colors">The Table</a>
+        <a href="#bar" class="mobile-link hover:text-qizo-coral transition-colors">Bar & Spirits</a>
+        <a href="#gallery" class="mobile-link hover:text-qizo-coral transition-colors">Gallery</a>
+        <a href="#reserve" class="mobile-link text-qizo-coral">Reserve Table</a>
+        <button id="close-mobile-menu" class="absolute top-8 right-8 text-qizo-cream">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+    </div>
+
+    <!-- HERO SECTION: ENTER QIZO -->
+    <header class="relative min-h-screen flex flex-col justify-between pt-36 pb-16 px-6 md:px-16 overflow-hidden">
+        <div class="ambient-glow-1 top-20 left-10"></div>
+        <div class="ambient-glow-2 bottom-10 right-10"></div>
+
+        <!-- Background Cinematic Image Overlay -->
+        <div class="absolute inset-0 z-0 opacity-40 mix-blend-luminosity img-zoom-container pointer-events-none">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1920" alt="Qizo Atmosphere" class="w-full h-full object-cover">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-qizo-bg/60 via-qizo-bg/30 to-qizo-bg z-0 pointer-events-none"></div>
+
+        <!-- Top Metadata -->
+        <div class="relative z-10 max-w-7xl mx-auto w-full flex flex-col md:flex-row justify-between items-start md:items-end text-xs tracking-[0.25em] text-qizo-amber uppercase font-semibold">
+            <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                <span class="w-2 h-2 rounded-full bg-qizo-coral animate-ping"></span>
+                <span>SCO 43, Madhya Marg, Sector 26, Chandigarh</span>
+            </div>
+            <div class="text-qizo-muted">
+                EST. NIGHTLIFE & CULINARY HAVEN
+            </div>
+        </div>
+
+        <!-- Center Oversized Typography -->
+        <div class="relative z-10 max-w-7xl mx-auto w-full my-auto py-12 text-center md:text-left">
+            <div class="inline-block px-4 py-1.5 rounded-full glass-card text-xs tracking-widest text-qizo-lavender uppercase mb-6 border border-qizo-lavender/20">
+                Enter The Qizo Experience
+            </div>
+            <h1 class="font-display font-extrabold text-6xl sm:text-8xl lg:text-[11rem] tracking-tighter leading-[0.85] text-qizo-cream drop-shadow-2xl">
+                QIZO<span class="text-qizo-coral">.</span>
+            </h1>
+            <div class="mt-8 flex flex-col md:flex-row md:items-center justify-between gap-6 border-t border-white/10 pt-8">
+                <p class="font-display text-xl sm:text-2xl lg:text-3xl tracking-wide text-qizo-cream/90 uppercase font-light">
+                    Eat <span class="text-qizo-coral">•</span> Drink <span class="text-qizo-coral">•</span> Feel
+                </p>
+                <div class="flex items-center space-x-4 text-sm tracking-widest text-qizo-muted">
+                    <span>SCROLL TO ENTER</span>
+                    <div class="w-8 h-px bg-qizo-coral animate-pulse"></div>
+                    <i data-lucide="arrow-down" class="w-4 h-4 text-qizo-coral animate-bounce"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Quick Stats -->
+        <div class="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t border-white/10 text-xs tracking-widest uppercase">
+            <div>
+                <span class="block text-qizo-muted font-normal mb-1">Rating</span>
+                <span class="font-display font-bold text-lg text-qizo-cream">4.3 / 5.0</span>
+            </div>
+            <div>
+                <span class="block text-qizo-muted font-normal mb-1">Reviews</span>
+                <span class="font-display font-bold text-lg text-qizo-cream">2,435+ Experiences</span>
+            </div>
+            <div>
+                <span class="block text-qizo-muted font-normal mb-1">Atmosphere</span>
+                <span class="font-display font-bold text-lg text-qizo-cream">Restaurant • Cafe • Bar</span>
+            </div>
+            <div>
+                <span class="block text-qizo-muted font-normal mb-1">Hours</span>
+                <span class="font-display font-bold text-lg text-qizo-coral">Open Late Nights</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- INTRO SECTION: MORE THAN A MEAL -->
+    <section id="experience" class="py-32 px-6 md:px-16 relative overflow-hidden bg-qizo-surface/40">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-8">
+                    <span class="text-xs font-bold tracking-[0.3em] text-qizo-coral uppercase">Editorial Vision</span>
+                    <h2 class="font-display font-extrabold text-4xl sm:text-6xl tracking-tight leading-[1.05]">
+                        MORE THAN A MEAL.<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-qizo-coral via-qizo-amber to-qizo-lavender">A MOOD.</span>
+                    </h2>
+                    <p class="text-qizo-muted text-lg sm:text-xl font-light leading-relaxed max-w-2xl">
+                        Located in the heart of Sector 26, Chandigarh, Qizo breaks away from conventional dining. We merge sophisticated culinary craftsmanship with high-energy nightlife, creating an immersive playground where sound, light, and flavor collide under one roof.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6 pt-4 border-t border-white/10">
+                        <div>
+                            <h3 class="font-display font-bold text-xl text-qizo-cream mb-2">Culinary Art</h3>
+                            <p class="text-sm text-qizo-muted">Exquisite plates crafted with precision, from signature wood-fired pizzas to refined global starters.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-display font-bold text-xl text-qizo-cream mb-2">Nightlife Pulse</h3>
+                            <p class="text-sm text-qizo-muted">As twilight deepens, the atmosphere transforms into Chandigarh's premier social destination.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 relative">
+                    <div class="relative rounded-2xl overflow-hidden glass-card p-2 img-zoom-container shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=1000" alt="Qizo Dining Experience" class="w-full h-[480px] object-cover rounded-xl">
+                        <div class="absolute bottom-6 left-6 right-6 p-6 rounded-xl glass-card border border-white/10">
+                            <span class="text-xs uppercase tracking-widest text-qizo-amber font-semibold block mb-1">Atmosphere</span>
+                            <p class="font-display font-medium text-lg text-qizo-cream">Designed for those who appreciate the finer, darker, electric hours.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE QIZO VIBE: CHOOSE YOUR MOOD -->
+    <section id="vibe" class="py-32 px-6 md:px-16 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div>
+                    <span class="text-xs font-bold tracking-[0.3em] text-qizo-lavender uppercase">Ambience Zones</span>
+                    <h2 class="font-display font-extrabold text-4xl sm:text-6xl tracking-tight mt-2">
+                        CHOOSE YOUR MOOD.
+                    </h2>
+                </div>
+                <p class="text-qizo-muted text-sm tracking-widest uppercase mt-4 md:mt-0">Hover or tap cards to immerse</p>
+            </div>
+
+            <!-- Mood Grid (Desktop & Mobile interactive) -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 h-[550px]" id="mood-container">
+                <!-- Mood 1: Day -->
+                <div class="mood-card relative rounded-2xl overflow-hidden cursor-pointer group transition-all duration-700 flex-1 hover:flex-[2.5]" data-cursor="EXPLORE">
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=800" alt="Day Vibe" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter brightness-75">
+                    <div class="absolute inset-0 bg-gradient-to-t from-qizo-bg via-qizo-bg/30 to-transparent"></div>
+                    <div class="absolute bottom-8 left-8 right-8 z-10">
+                        <span class="text-xs font-bold tracking-widest text-qizo-amber uppercase block mb-2">01 / Daylight</span>
+                        <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-qizo-cream group-hover:text-qizo-amber transition-colors">DAYTIME CAFE</h3>
+                        <p class="text-sm text-qizo-muted mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">Sunlit conversations, artisanal coffees, and relaxed gourmet lounging.</p>
+                    </div>
+                </div>
+                <!-- Mood 2: Dining -->
+                <div class="mood-card relative rounded-2xl overflow-hidden cursor-pointer group transition-all duration-700 flex-1 hover:flex-[2.5]" data-cursor="TASTE">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=800" alt="Dining Vibe" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter brightness-75">
+                    <div class="absolute inset-0 bg-gradient-to-t from-qizo-bg via-qizo-bg/30 to-transparent"></div>
+                    <div class="absolute bottom-8 left-8 right-8 z-10">
+                        <span class="text-xs font-bold tracking-widest text-qizo-coral uppercase block mb-2">02 / Culinary</span>
+                        <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-qizo-cream group-hover:text-qizo-coral transition-colors">FINE DINING</h3>
+                        <p class="text-sm text-qizo-muted mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">An eclectic menu featuring Paneer Tikka Pizza, Dahi Kebab, and global delicacies.</p>
+                    </div>
+                </div>
+                <!-- Mood 3: Bar & Drinks -->
+                <div class="mood-card relative rounded-2xl overflow-hidden cursor-pointer group transition-all duration-700 flex-1 hover:flex-[2.5]" data-cursor="POUR">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800" alt="Bar Vibe" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter brightness-75">
+                    <div class="absolute inset-0 bg-gradient-to-t from-qizo-bg via-qizo-bg/30 to-transparent"></div>
+                    <div class="absolute bottom-8 left-8 right-8 z-10">
+                        <span class="text-xs font-bold tracking-widest text-qizo-lavender uppercase block mb-2">03 / Mixology</span>
+                        <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-qizo-cream group-hover:text-qizo-lavender transition-colors">BAR & SPIRITS</h3>
+                        <p class="text-sm text-qizo-muted mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">Unexpected cocktail creations and premium spirits poured in intimate lighting.</p>
+                    </div>
+                </div>
+                <!-- Mood 4: Party / Night -->
+                <div class="mood-card relative rounded-2xl overflow-hidden cursor-pointer group transition-all duration-700 flex-1 hover:flex-[2.5]" data-cursor="EXPLORE">
+                    <img src="https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&q=80&w=800" alt="Party Vibe" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter brightness-75">
+                    <div class="absolute inset-0 bg-gradient-to-t from-qizo-bg via-qizo-bg/30 to-transparent"></div>
+                    <div class="absolute bottom-8 left-8 right-8 z-10">
+                        <span class="text-xs font-bold tracking-widest text-qizo-coral uppercase block mb-2">04 / Electric</span>
+                        <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-qizo-cream group-hover:text-qizo-coral transition-colors">NIGHTLIFE</h3>
+                        <p class="text-sm text-qizo-muted mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">When the sun sets, Chandigarh's most vibrant crowd takes over the floor.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOD EXPERIENCE: THE TABLE IS SET -->
+    <section id="menu" class="py-32 px-6 md:px-16 relative bg-qizo-surface/30 overflow-hidden">
+        <div class="max-w-7xl mx-auto mb-16 flex flex-col md:flex-row md:items-end justify-between">
+            <div>
+                <span class="text-xs font-bold tracking-[0.3em] text-qizo-coral uppercase">Culinary Showcase</span>
+                <h2 class="font-display font-extrabold text-4xl sm:text-6xl tracking-tight mt-2">
+                    THE TABLE IS SET.
+                </h2>
+            </div>
+            <p class="text-qizo-muted text-sm tracking-widest uppercase mt-4 md:mt-0">Curated Flavors & Signatures</p>
+        </div>
+
+        <!-- Horizontal Scrolling Food Showcase -->
+        <div class="flex overflow-x-auto space-x-8 pb-8 no-scrollbar scroll-smooth px-6 md:px-16" id="food-scroll-container">
+            <!-- Dish 1 -->
+            <div class="min-w-[320px] sm:min-w-[400px] glass-card rounded-2xl overflow-hidden group flex-shrink-0" data-cursor="TASTE">
+                <div class="h-72 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=800" alt="Paneer Tikka Pizza" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-qizo-bg/80 text-qizo-amber backdrop-blur-md uppercase tracking-wider">Wood-Fired</span>
+                </div>
+                <div class="p-8">
+                    <span class="text-xs uppercase tracking-widest text-qizo-coral font-semibold">Signature Pizza</span>
+                    <h3 class="font-display font-extrabold text-2xl text-qizo-cream mt-1 mb-3">Paneer Tikka Pizza</h3>
+                    <p class="text-sm text-qizo-muted font-light">Tandoori-spiced paneer chunks, bell peppers, onions, and melted mozzarella on a crisp artisanal crust.</p>
+                </div>
+            </div>
+
+            <!-- Dish 2 -->
+            <div class="min-w-[320px] sm:min-w-[400px] glass-card rounded-2xl overflow-hidden group flex-shrink-0" data-cursor="TASTE">
+                <div class="h-72 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&q=80&w=800" alt="Cheesy Garlic Bread" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-qizo-bg/80 text-qizo-lavender backdrop-blur-md uppercase tracking-wider">Starter</span>
+                </div>
+                <div class="p-8">
+                    <span class="text-xs uppercase tracking-widest text-qizo-coral font-semibold">Bakery & Bites</span>
+                    <h3 class="font-display font-extrabold text-2xl text-qizo-cream mt-1 mb-3">Cheesy Garlic Bread</h3>
+                    <p class="text-sm text-qizo-muted font-light">Warm, buttery artisanal bread loaded with garlic herbs and an abundant layer of gooey melted cheese.</p>
+                </div>
+            </div>
+
+            <!-- Dish 3 -->
+            <div class="min-w-[320px] sm:min-w-[400px] glass-card rounded-2xl overflow-hidden group flex-shrink-0" data-cursor="TASTE">
+                <div class="h-72 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&q=80&w=800" alt="Dahi Kebab" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-qizo-bg/80 text-qizo-amber backdrop-blur-md uppercase tracking-wider">Traditional Art</span>
+                </div>
+                <div class="p-8">
+                    <span class="text-xs uppercase tracking-widest text-qizo-coral font-semibold">Appetizer</span>
+                    <h3 class="font-display font-extrabold text-2xl text-qizo-cream mt-1 mb-3">Dahi Kebab</h3>
+                    <p class="text-sm text-qizo-muted font-light">Melt-in-your-mouth spiced yogurt patties with a golden crispy outer crust, served with mint chutney.</p>
+                </div>
+            </div>
+
+            <!-- Dish 4 -->
+            <div class="min-w-[320px] sm:min-w-[400px] glass-card rounded-2xl overflow-hidden group flex-shrink-0" data-cursor="TASTE">
+                <div class="h-72 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1599487484170-7c1e66508dbc?auto=format&fit=crop&q=80&w=800" alt="Chicken Tikka" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-qizo-bg/80 text-qizo-lavender backdrop-blur-md uppercase tracking-wider">Tandoor Special</span>
+                </div>
+                <div class="p-8">
+                    <span class="text-xs uppercase tracking-widest text-qizo-coral font-semibold">Grills</span>
+                    <h3 class="font-display font-extrabold text-2xl text-qizo-cream mt-1 mb-3">Chicken Tikka</h3>
+                    <p class="text-sm text-qizo-muted font-light">Juicy marinated chicken chunks charred to perfection in traditional clay oven with aromatic spices.</p>
+                </div>
+            </div>
+
+            <!-- Dish 5 -->
+            <div class="min-w-[320px] sm:min-w-[400px] glass-card rounded-2xl overflow-hidden group flex-shrink-0" data-cursor="TASTE">
+                <div class="h-72 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&q=80&w=800" alt="Chocolate Brownie" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-qizo-bg/80 text-qizo-amber backdrop-blur-md uppercase tracking-wider">Dessert</span>
+                </div>
+                <div class="p-8">
+                    <span class="text-xs uppercase tracking-widest text-qizo-coral font-semibold">Sweet Endings</span>
+                    <h3 class="font-display font-extrabold text-2xl text-qizo-cream mt-1 mb-3">Chocolate Brownie</h3>
+                    <p class="text-sm text-qizo-muted font-light">Rich, decadent fudge brownie served warm with smooth chocolate fudge and creamy textures.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIGNATURE DISH SPOTLIGHT -->
+    <section class="py-32 px-6 md:px-16 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto glass-card rounded-3xl p-8 md:p-16 relative overflow-hidden border border-white/10">
+            <div class="absolute -right-20 -top-20 w-96 h-96 bg-qizo-coral/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="inline-block px-3 py-1 rounded-full text-xs uppercase tracking-widest bg-qizo-coral/20 text-qizo-coral border border-qizo-coral/30">
+                        The Masterpiece
+                    </div>
+                    <h2 class="font-display font-extrabold text-4xl sm:text-5xl tracking-tight text-qizo-cream leading-tight">
+                        THE ONE YOU'LL <br>COME BACK FOR.
+                    </h2>
+                    <p class="text-qizo-muted text-lg font-light leading-relaxed">
+                        Every great night out deserves a culinary anchor. Crafted with signature spices and precision presentation, our legendary preparations define the Qizo culinary philosophy.
+                    </p>
+                    <div class="flex items-center space-x-6 pt-4">
+                        <div>
+                            <span class="block text-xs uppercase tracking-widest text-qizo-muted mb-1">Preparation</span>
+                            <span class="font-display font-bold text-xl text-qizo-cream">Wood-Fired & Fresh</span>
+                        </div>
+                        <div class="w-px h-12 bg-white/10"></div>
+                        <div>
+                            <span class="block text-xs uppercase tracking-widest text-qizo-muted mb-1">Pairing Suggestion</span>
+                            <span class="font-display font-bold text-xl text-qizo-coral">Artisanal Cocktail</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative rounded-2xl overflow-hidden img-zoom-container shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=1000" alt="Signature Dish" class="w-full h-[400px] sm:h-[450px] object-cover rounded-xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DRINKS / BAR EXPERIENCE -->
+    <section id="bar" class="py-32 px-6 md:px-16 relative bg-qizo-surface/50 overflow-hidden">
+        <div class="ambient-glow-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <span class="text-xs font-bold tracking-[0.3em] text-qizo-lavender uppercase">Liquid Artistry</span>
+                <h2 class="font-display font-extrabold text-4xl sm:text-6xl tracking-tight mt-2 mb-6">
+                    POUR SOMETHING UNEXPECTED.
+                </h2>
+                <p class="text-qizo-muted text-lg font-light">
+                    Step into an intimate, darker atmosphere where master mixologists blend premium spirits, fresh botanicals, and smoke infusions.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card rounded-2xl p-8 relative group overflow-hidden border border-white/10" data-cursor="POUR">
+                    <div class="w-12 h-12 rounded-xl bg-qizo-coral/20 flex items-center justify-center text-qizo-coral mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="glass-water" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-2xl text-qizo-cream mb-3">Signature Elixirs</h3>
+                    <p class="text-sm text-qizo-muted font-light leading-relaxed">
+                        Handcrafted cocktails infused with aromatic bitters, exotic fruits, and premium aged spirits.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-8 relative group overflow-hidden border border-white/10" data-cursor="POUR">
+                    <div class="w-12 h-12 rounded-xl bg-qizo-amber/20 flex items-center justify-center text-qizo-amber mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="sparkles" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-2xl text-qizo-cream mb-3">Smoke & Infusion</h3>
+                    <p class="text-sm text-qizo-muted font-light leading-relaxed">
+                        Sensory spectacles served in custom glassware with aromatic smoke and striking visual presentations.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-8 relative group overflow-hidden border border-white/10" data-cursor="POUR">
+                    <div class="w-12 h-12 rounded-xl bg-qizo-lavender/20 flex items-center justify-center text-qizo-lavender mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="wine" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-2xl text-qizo-cream mb-3">Global Cellar</h3>
+                    <p class="text-sm text-qizo-muted font-light leading-relaxed">
+                        A curated selection of fine wines, champagnes, and rare liquors to elevate your evening.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE NIGHT CHANGES HERE -->
+    <section class="py-36 px-6 md:px-16 relative bg-gradient-to-b from-qizo-surface/50 to-qizo-bg overflow-hidden text-center">
+        <div class="max-w-4xl mx-auto relative z-10 space-y-8">
+            <span class="text-xs font-bold tracking-[0.3em] text-qizo-coral uppercase">Day • Sunset • Night</span>
+            <h2 class="font-display font-extrabold text-5xl sm:text-7xl lg:text-8xl tracking-tighter leading-tight text-qizo-cream">
+                WHEN THE SUN GOES DOWN, <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-qizo-coral via-qizo-amber to-qizo-lavender">QIZO CHANGES.</span>
+            </h2>
+            <p class="text-qizo-muted text-lg sm:text-xl font-light max-w-2xl mx-auto">
+                The ambient lighting shifts, the bassline deepens, and Sector 26 awakens into Chandigarh's most electric nightlife destination.
+            </p>
+            <div class="pt-6">
+                <a href="#reserve" class="inline-block px-8 py-4 rounded-full bg-qizo-cream text-qizo-bg font-bold uppercase tracking-widest text-xs hover:bg-qizo-coral hover:text-white transition-all duration-300 shadow-xl" data-cursor="RESERVE">
+                    Experience The Night
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="py-32 px-6 md:px-16 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div>
+                    <span class="text-xs font-bold tracking-[0.3em] text-qizo-amber uppercase">Visual Archive</span>
+                    <h2 class="font-display font-extrabold text-4xl sm:text-6xl tracking-tight mt-2">
+                        ATMOSPHERE & MOMENTS.
+                    </h2>
+                </div>
+                <!-- Category Filter Buttons -->
+                <div class="flex flex-wrap gap-2 mt-6 md:mt-0 text-xs font-semibold tracking-wider uppercase">
+                    <button class="px-5 py-2 rounded-full bg-qizo-coral text-white transition-colors filter-btn" data-filter="all">All</button>
+                    <button class="px-5 py-2 rounded-full glass-card text-qizo-muted hover:text-qizo-cream transition-colors filter-btn" data-filter="food">Food</button>
+                    <button class="px-5 py-2 rounded-full glass-card text-qizo-muted hover:text-qizo-cream transition-colors filter-btn" data-filter="vibe">Vibe</button>
+                    <button class="px-5 py-2 rounded-full glass-card text-qizo-muted hover:text-qizo-cream transition-colors filter-btn" data-filter="drinks">Drinks</button>
+                </div>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="gallery-grid">
+                <div class="gallery-item rounded-2xl overflow-hidden glass-card h-80 relative group" data-category="vibe" data-cursor="EXPLORE">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=800" alt="Vibe" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-qizo-bg/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="font-display font-bold text-lg text-qizo-cream">Main Dining Hall</span>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden glass-card h-80 relative group" data-category="food" data-cursor="TASTE">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=800" alt="Food" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-qizo-bg/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="font-display font-bold text-lg text-qizo-cream">Artisanal Pizza</span>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden glass-card h-80 relative group" data-category="drinks" data-cursor="POUR">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800" alt="Drinks" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-qizo-bg/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="font-display font-bold text-lg text-qizo-cream">Mixology Bar</span>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden glass-card h-80 relative group" data-category="vibe" data-cursor="EXPLORE">
+                    <img src="https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&q=80&w=800" alt="Night Vibe" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-qizo-bg/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="font-display font-bold text-lg text-qizo-cream">Nightlife Hours</span>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden glass-card h-80 relative group" data-category="food" data-cursor="TASTE">
+                    <img src="https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&q=80&w=800" alt="Appetizer" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-qizo-bg/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="font-display font-bold text-lg text-qizo-cream">Cheesy Garlic Bread</span>
+                    </div>
+                </div>
+                <div class="gallery-item rounded-2xl overflow-hidden glass-card h-80 relative group" data-category="drinks" data-cursor="POUR">
+                    <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&q=80&w=800" alt="Cocktails" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-qizo-bg/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <span class="font-display font-bold text-lg text-qizo-cream">Signature Cocktails</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF / REVIEWS -->
+    <section class="py-32 px-6 md:px-16 relative bg-qizo-surface/30 overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+                <div class="lg:col-span-5">
+                    <span class="text-xs font-bold tracking-[0.3em] text-qizo-coral uppercase">Verified Reputation</span>
+                    <h2 class="font-display font-extrabold text-5xl sm:text-6xl tracking-tight mt-2 mb-6">
+                        4.3 <span class="text-qizo-coral">/ 5.0</span>
+                    </h2>
+                    <p class="text-2xl font-display font-bold text-qizo-cream mb-4">
+                        2,435+ Experiences Shared
+                    </p>
+                    <p class="text-qizo-muted text-base font-light">
+                        Loved by Chandigarh's discerning food lovers and nightlife enthusiasts. Here is what guests have to say about their time at Qizo.
+                    </p>
+                </div>
+                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="glass-card rounded-2xl p-8 border border-white/10">
+                        <div class="flex text-qizo-amber mb-4">
+                            ★★★★★
+                        </div>
+                        <p class="text-qizo-cream font-light italic mb-6">
+                            “Wonderful time, great food, great vibe. Sector 26 needed a place with this exact cinematic energy.”
+                        </p>
+                        <span class="text-xs font-bold uppercase tracking-widest text-qizo-muted">— Verified Diner</span>
+                    </div>
+                    <div class="glass-card rounded-2xl p-8 border border-white/10">
+                        <div class="flex text-qizo-amber mb-4">
+                            ★★★★★
+                        </div>
+                        <p class="text-qizo-cream font-light italic mb-6">
+                            “The atmosphere transforms so smoothly into nightlife. Amazing cocktails and fantastic wood-fired pizzas.”
+                        </p>
+                        <span class="text-xs font-bold uppercase tracking-widest text-qizo-muted">— Verified Guest</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE KEYWORDS -->
+    <section class="py-24 px-6 md:px-16 relative overflow-hidden text-center border-y border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <span class="text-xs font-bold tracking-[0.3em] text-qizo-lavender uppercase block mb-8">What People Come For</span>
+            <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-12 font-display font-extrabold text-3xl sm:text-5xl uppercase text-qizo-cream/60">
+                <span class="hover:text-qizo-coral transition-colors cursor-default" data-cursor="TASTE">FOOD</span>
+                <span class="text-qizo-coral">•</span>
+                <span class="hover:text-qizo-amber transition-colors cursor-default" data-cursor="EXPLORE">MUSIC</span>
+                <span class="text-qizo-coral">•</span>
+                <span class="hover:text-qizo-lavender transition-colors cursor-default" data-cursor="EXPLORE">VIBE</span>
+                <span class="text-qizo-coral">•</span>
+                <span class="hover:text-qizo-coral transition-colors cursor-default" data-cursor="TASTE">DINING</span>
+                <span class="text-qizo-coral">•</span>
+                <span class="hover:text-qizo-amber transition-colors cursor-default" data-cursor="POUR">DRINKS</span>
+                <span class="text-qizo-coral">•</span>
+                <span class="hover:text-qizo-lavender transition-colors cursor-default" data-cursor="EXPLORE">NIGHTS</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESERVATION SECTION -->
+    <section id="reserve" class="py-36 px-6 md:px-16 relative bg-qizo-surface/60 overflow-hidden text-center">
+        <div class="ambient-glow-1 top-10 right-10"></div>
+        <div class="max-w-4xl mx-auto relative z-10 space-y-8">
+            <span class="text-xs font-bold tracking-[0.3em] text-qizo-coral uppercase">Secure Your Table</span>
+            <h2 class="font-display font-extrabold text-5xl sm:text-7xl tracking-tighter text-qizo-cream">
+                YOUR TABLE IS WAITING.
+            </h2>
+            <p class="text-xl font-light text-qizo-muted">
+                Make it a Qizo night. Experience Chandigarh's premier destination for dining, drinks, and nightlife.
+            </p>
+            <div class="pt-6">
+                <a href="tel:09888852250" class="inline-flex items-center space-x-4 px-10 py-5 rounded-full bg-qizo-coral text-white font-bold uppercase tracking-widest text-sm hover:bg-gradient-to-r hover:from-qizo-coral hover:to-amber-600 transition-all duration-300 shadow-[0_0_30px_rgba(242,106,75,0.4)] group" data-cursor="RESERVE">
+                    <span>Reserve A Table →</span>
+                </a>
+            </div>
+            <p class="text-xs uppercase tracking-widest text-qizo-muted pt-4">
+                Or call directly at <span class="text-qizo-cream font-semibold">098888 52250</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- LOCATION SECTION -->
+    <section class="py-32 px-6 md:px-16 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <span class="text-xs font-bold tracking-[0.3em] text-qizo-amber uppercase">Find Us</span>
+                    <h2 class="font-display font-extrabold text-4xl sm:text-5xl tracking-tight text-qizo-cream">
+                        SCO 43, MADHYA MARG, <br>SECTOR 26, CHANDIGARH.
+                    </h2>
+                    <p class="text-qizo-muted text-lg font-light">
+                        Situated in Chandigarh’s pulsating nightlife hub, Qizo is easily accessible with valet parking available for all guests.
+                    </p>
+                    <div class="space-y-4 pt-4 border-t border-white/10 text-sm">
+                        <div class="flex items-center space-x-4">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-qizo-coral flex-shrink-0"></i>
+                            <span class="text-qizo-cream">SCO 43, Madhya Marg, Sector 26, Chandigarh, 160019</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <i data-lucide="phone" class="w-5 h-5 text-qizo-coral flex-shrink-0"></i>
+                            <span class="text-qizo-cream">098888 52250</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <i data-lucide="clock" class="w-5 h-5 text-qizo-coral flex-shrink-0"></i>
+                            <span class="text-qizo-cream">Open Daily till Late Night (~12:30 AM)</span>
+                        </div>
+                    </div>
+                    <div class="pt-4">
+                        <a href="https://maps.google.com/?q=SCO+43+Madhya+Marg+Sector+26+Chandigarh" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-qizo-coral hover:text-qizo-cream transition-colors" data-cursor="EXPLORE">
+                            <span>Get Directions</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- Map / Visual representation card -->
+                <div class="glass-card rounded-2xl p-4 h-[400px] relative overflow-hidden flex items-center justify-center border border-white/10">
+                    <div class="absolute inset-0 bg-qizo-surface flex flex-col items-center justify-center p-8 text-center">
+                        <i data-lucide="compass" class="w-16 h-16 text-qizo-coral mb-4 animate-spin" style="animation-duration: 20s;"></i>
+                        <h3 class="font-display font-bold text-2xl text-qizo-cream mb-2">Sector 26, Chandigarh</h3>
+                        <p class="text-sm text-qizo-muted mb-6">The Epicenter of Nightlife & Dining</p>
+                        <a href="https://maps.google.com/?q=SCO+43+Madhya+Marg+Sector+26+Chandigarh" target="_blank" rel="noopener noreferrer" class="px-6 py-3 rounded-full bg-qizo-coral text-white font-bold uppercase text-xs tracking-widest hover:bg-amber-600 transition-colors">
+                            Open in Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-qizo-surface pt-24 pb-12 border-t border-white/10 relative overflow-hidden">
+        <!-- Marquee -->
+        <div class="overflow-hidden whitespace-nowrap mb-20 border-y border-white/10 py-6 bg-qizo-bg">
+            <div class="animate-marquee flex items-center space-x-8 font-display font-extrabold text-2xl sm:text-3xl tracking-widest text-qizo-cream/40 uppercase">
+                <span>QIZO</span>
+                <span class="text-qizo-coral">•</span>
+                <span>CHANDIGARH</span>
+                <span class="text-qizo-coral">•</span>
+                <span>FOOD</span>
+                <span class="text-qizo-coral">•</span>
+                <span>DRINKS</span>
+                <span class="text-qizo-coral">•</span>
+                <span>MUSIC</span>
+                <span class="text-qizo-coral">•</span>
+                <span>MOMENTS</span>
+                <span class="text-qizo-coral">•</span>
+                <span>QIZO</span>
+                <span class="text-qizo-coral">•</span>
+                <span>CHANDIGARH</span>
+                <span class="text-qizo-coral">•</span>
+                <span>FOOD</span>
+                <span class="text-qizo-coral">•</span>
+                <span>DRINKS</span>
+                <span class="text-qizo-coral">•</span>
+                <span>MUSIC</span>
+                <span class="text-qizo-coral">•</span>
+                <span>MOMENTS</span>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 md:px-16 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="md:col-span-2 space-y-6">
+                <a href="#" class="font-display font-extrabold text-3xl tracking-tighter text-qizo-cream">
+                    QIZO<span class="text-qizo-coral">.</span>
+                </a>
+                <p class="text-qizo-muted text-sm font-light max-w-sm">
+                    A stylish restaurant, café, and bar located at SCO 43, Madhya Marg, Sector 26, Chandigarh. Delivering unmatched culinary and nightlife experiences.
+                </p>
+                <p class="text-xs uppercase tracking-widest text-qizo-amber font-semibold">
+                    See you after dark.
+                </p>
+            </div>
+            <div class="space-y-4">
+                <h4 class="font-display font-bold text-sm uppercase tracking-widest text-qizo-cream">Navigation</h4>
+                <ul class="space-y-2 text-sm text-qizo-muted">
+                    <li><a href="#experience" class="hover:text-qizo-coral transition-colors">Experience</a></li>
+                    <li><a href="#vibe" class="hover:text-qizo-coral transition-colors">Mood</a></li>
+                    <li><a href="#menu" class="hover:text-qizo-coral transition-colors">The Table</a></li>
+                    <li><a href="#bar" class="hover:text-qizo-coral transition-colors">Bar & Spirits</a></li>
+                    <li><a href="#gallery" class="hover:text-qizo-coral transition-colors">Gallery</a></li>
+                </ul>
+            </div>
+            <div class="space-y-4">
+                <h4 class="font-display font-bold text-sm uppercase tracking-widest text-qizo-cream">Connect</h4>
+                <ul class="space-y-2 text-sm text-qizo-muted">
+                    <li><a href="tel:09888852250" class="hover:text-qizo-coral transition-colors">Phone: 098888 52250</a></li>
+                    <li><a href="#reserve" class="hover:text-qizo-coral transition-colors">Reservations</a></li>
+                    <li><a href="https://maps.google.com/?q=SCO+43+Madhya+Marg+Sector+26+Chandigarh" target="_blank" rel="noopener noreferrer" class="hover:text-qizo-coral transition-colors">Directions</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 md:px-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center text-xs text-qizo-muted tracking-widest">
+            <p>&copy; 2026 QIZO Chandigarh. All rights reserved.</p>
+            <p class="mt-4 sm:mt-0">SCO 43, Madhya Marg, Sector 26, Chandigarh</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Custom Cursor Logic
+        const cursor = document.getElementById('custom-cursor');
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorText = document.getElementById('cursor-text');
+
+        window.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        });
+
+        // Interactive hover effects for custom cursor
+        const hoverElements = document.querySelectorAll('[data-cursor]');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                const text = el.getAttribute('data-cursor');
+                if (text) {
+                    cursorText.textContent = text;
+                    cursorText.classList.remove('hidden');
+                    cursorDot.classList.add('scale-0');
+                    cursor.style.width = '70px';
+                    cursor.style.height = '35px';
+                    cursor.style.borderRadius = '18px';
+                    cursor.style.backgroundColor = 'rgba(242, 106, 75, 0.2)';
+                    cursor.style.borderColor = 'rgba(242, 106, 75, 0.8)';
+                }
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorText.classList.add('hidden');
+                cursorDot.classList.remove('scale-0');
+                cursor.style.width = '32px';
+                cursor.style.height = '32px';
+                cursor.style.borderRadius = '9999px';
+                cursor.style.backgroundColor = 'transparent';
+                cursor.style.borderColor = 'rgba(242, 106, 75, 0.6)';
+            });
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+            });
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-3', 'shadow-2xl');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.add('py-4');
+                navbar.classList.remove('py-3', 'shadow-2xl');
+            }
+        });
+
+        // Gallery Filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button state
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-qizo-coral', 'text-white');
+                    b.classList.add('glass-card', 'text-qizo-muted');
+                });
+                btn.classList.add('bg-qizo-coral', 'text-white');
+                btn.classList.remove('glass-card', 'text-qizo-muted');
+
+                const filter = btn.getAttribute('data-filter');
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
